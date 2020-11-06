@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo - Toast Plugin</title>
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="jquery.toast.css">
+    <style type="text/css">
+        * { font-family: 'Roboto Slab', serif; margin: 0; padding: 0; }
+        hr { border: 1px solid #ccc; margin-bottom: 20px; }
+        h1, h2 { margin: 20px 0px 10px; }
+        a { text-decoration: none;}
+        .container { display: block; width: 1200px; margin: auto; }
+        strong { padding-bottom: 1px; border-bottom: 1px dotted; }
+        p { margin: 10px 0px; }
+        code { font-family: monospace; color: #2d2d2d; background: whitesmoke; display: block; padding: 10px; border: 1px solid #ccc; overflow: scroll;}
+        a.eval-js { color: whitesmoke; padding: 5px 10px; display: inline-block; margin-bottom: 10px; background: #2d2d2d; border-radius: 2px; }
+        span.muted { font-size: 17px; color: #8B7373; }
+        span.code { font-family: monospace; color: #2d2d2d; background: whitesmoke; padding: 5px; border: 1px solid #ccc; }
+        div.code-runner { margin: 20px 20px;}
+        ul, ol { margin: 10px 50px; }
+        ul li { margin-bottom: 10px; }
+        .hidden { display: none; }
+        span.k { display: inline-block; width: 175px; }
+        span.c { color: #F7BCBC; padding-left: 30px; }
+        .plugin-options label { display: inline-block; width: 265px; }
+        span.toast-position span.k { display: inline; } 
+        .toast-index .muted { display: block; color: #AD9D9D; }
+        .toast-index .muted:hover { color: #333; }
+        .latest-update { padding: 0px 30px; border: 1px dashed; margin: 30px 0; box-sizing: border-box; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center; margin: 20px 0px;">Jquery Toast Plugin</h1>
+        <hr>
+        
+        <h1>Index</h1>
+        <ul class="toast-index">
+            <li><a href="#quick-demos">Quick Demos</a> <span class="muted">Some quick demos and the code to generate that, if you are in a hurry!</span></li>
+            <li><a href="#toast-generator">Generator</a> <span class="muted">A generator for you to <strong>easily generate the code for the kind of toast you want</strong>, so that <strong>you don't have to go through the documentation!</strong></span></li>
+            <li>
+                <a href="#options">Options</a>
+                <span class="muted">Each of the options is accompanied by a demo explaining that option.</span>
+                <ul>
+                    <li><a href="#toast-head">Specifying the heading</a></li>
+                    <li><a href="#sticky-toast">Making them sticky</a></li>
+                    <li><a href="#toast-timer">Changing the toast hide timer</a></li>
+                    <li><a href="#showhide-animation">Changing the show/hide animation</a></li>
+                    <li><a href="#closeable-toasts">Making the toast closeable or not</a></li>
+                    <li><a href="#toasts-stack">Setting the toast stack</a></li>
+                    <li><a href="#toasts-positioning">Positioning the toast</a></li>
+                    <li><a href="#toasts-icons">Messages with icons</a></li>
+                    <li><a href="#toasts-bg-color">Background &amp; text color</a></li>
+                    <li><a href="#toasts-text-alignment">Setting the text alignment</a></li>
+                    <li><a href="#toasts-events">Toast Events</a></li>
+                    <li><a href="#updating-toasts">Updating Toasts</a></li>
+                    <li><a href="#resetting-toasts">Resetting Toasts</a></li>
+                </ul>
+            </li>
+        </ul>
+        
+        <div class="latest-update">
+            <h1 id="latest-update">Latest Update</h1>
+            <p>Toast loader has been introduced in the latest version. Check the demo below to see it in action</p>
+            <div class="code-runner" style="margin-left: 0px; margin-right: 0px;">
+                <a class="eval-js" href="#">Run code</a>
+                <pre><code>$.toast('Here you can put the text of the toast')</code></pre>
+				<input type="submit" class="btn btn-sm btn-primary" id="btn-simpan"  value="Simpan">
+            </div>
+
+            <p>Loader is enabled by default. In order to disable it or change the color, use the `loader` and `loaderBg` options. Have a look at the demo below</p>
+
+           
+        </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.toast.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            
+            $('#btn-simpan').click(function() {
+				$.toast('Here you can put the text of the toast');
+			});
+			
+			$('.kontol').on('click', function ( e ) {
+                $.toast('Here you can put the text of the toast');
+            });
+			
+			$('.eval-js').on('click', function ( e ) {
+                e.preventDefault();
+
+                if ( !$(this).hasClass('generate-toast') ) {
+                    var code = $(this).siblings('pre').find('code').text();
+                    code.replace("<span class='hidden'>", '');
+                    code.replace("</span");
+
+                    eval( code );
+                };
+            });
+
+            $('#icon-type').on('change', function () {
+                if ( !$(this).val() ) {
+                    $('.custom-color-info').show();
+                    $('.toast-icon-line').hide();
+                    $('.toast-bgColor-line').show();
+                    $('.toast-textColor-line').show();
+                } else {
+                    $('.toast-icon-line').show();
+                    $('.custom-color-info').hide();
+                    $('.toast-bgColor-line').hide();
+                    $('.toast-textColor-line').hide();
+                    $('.toast-icon-line span.toast-icon').text( $(this).val() );
+                }
+            });
+
+            // You are about to see some extremely horrible code that can be MUCH MUCH improved,
+            // I've knowlingly done it that way, please don't judge me based upon this ;)
+            $(document).ready(function () {
+                
+                function generateCode () {
+                    var text = $('.plugin-options #toast-text').val(); 
+                    var heading = $('.plugin-options #toast-heading').val(); 
+                    var transition = $('.toast-transition').val(); 
+                    var allowToastClose = $('#allow-toast-close').val(); 
+                    var autoHide = $('#auto-hide-toast').val(); 
+                    var stackToasts = $('#stack-toasts').val(); 
+                    var toastPosition = $('#toast-position').val() 
+                    var toastBg = $('#toast-bg').val(); 
+                    var toastTextColor = $('#toast-text-color').val();
+                    var toastIcon = $('#icon-type').val();
+                    var textAlign = $('#text-align').val();
+                    var toastEvents = $('#add-toast-events').val();
+                    var loader = $('#show-loader').val();
+                    var loaderBg = $('#loader-bg').val();
+
+                    if ( text ) {
+                        $('.toast-text-line').show(); 
+                        $('.toast-text-line .toast-text').text( text ); 
+                    } else {
+                        $('.toast-text-line').hide() 
+                        $('.toast-text-line .toast-text').text(''); 
+                    };
+
+                    if ( heading ) {
+                        $('.toast-heading-line').show(); 
+                        $('.toast-heading-line .toast-heading').text( heading ); 
+                    } else {
+                        $('.toast-heading-line').hide() 
+                        $('.toast-heading-line .toast-heading').text(''); 
+                    }; 
+
+                    if ( transition ) {
+                        $('.toast-transition-line').show() 
+                        $('.toast-transition-line .toast-transition').text( transition ); 
+                    } else {
+                        $('.toast-transition-line').hide(); 
+                        $('.toast-transition-line .toast-transition').text('fade'); 
+                    } 
+
+                    if ( allowToastClose ) {
+                        $('.toast-allowToastClose-line').show(); 
+                        $('.toast-allowToastClose-line .toast-allowToastClose').text( allowToastClose ); 
+                    } else {
+                        $('.toast-allowToastClose-line').hide(); 
+                        $('.toast-allowToastClose-line .toast-allowToastClose').text( false ); 
+                    } 
+
+                    if ( autoHide && ( autoHide == 'false' ) ) {
+                        $('.toast-hideAfter-line').show(); 
+                        $('.toast-hideAfter-line .toast-hideAfter').text('false'); 
+                        $('.autohide-after').hide(); 
+                    } else {
+                        $('.toast-hideAfter-line').show(); 
+                        $('.toast-hideAfter-line .toast-hideAfter').text( $('#autohide-after').val() ? $('#autohide-after').val() : 3000 ); 
+                        $('.autohide-after').show(); 
+                    } 
+
+                    if ( stackToasts && stackToasts != 'true') {
+                        $('.toast-stackLength-line').show(); 
+                        $('.toast-stackLength-line .toast-stackLength').text( stackToasts ); 
+                        $('.stack-length').hide(); 
+                    } else {
+                        $('.stack-length').show(); 
+                        $('.toast-stackLength-line').show(); 
+                        $('.toast-stackLength-line .toast-stackLength').text( $('#stack-length').val() ? $('#stack-length').val() : 5 ); 
+                    } 
+
+                    if ( toastPosition && ( toastPosition !== 'custom-position' ) ) {
+                        $('.toast-position-string-line').show(); 
+                        $('.custom-toast-position').hide(); 
+                        $('.toast-position-string-line .toast-position').text( toastPosition ); 
+                    } else {
+                        $('.toast-position-string-line').hide(); 
+                        $('.toast-position-string-line .toast-position').text(''); 
+                    } 
+
+                    if ( toastPosition && ( toastPosition === 'custom-position' ) ) {
+                        $('.custom-toast-position').show(); 
+                        $('.toast-position-string-obj').show(); 
+                        var left = $('#left-position').val() ? $('#left-position').val() : 'auto'; 
+                        var right = $('#right-position').val() ? $('#right-position').val() : 'auto'; 
+                        var top = $('#top-position').val() ? $('#top-position').val() : 'auto'; 
+                        var bottom = $('#bottom-position').val() ? $('#bottom-position').val() : 'auto'; 
+                        $('.toast-position-string-obj .toast-position-left').text( ( left !== 'auto' ) ? left : "'" + left + "'" ); 
+                        $('.toast-position-string-obj .toast-position-right').text( ( right !== 'auto' ) ? right : "'" + right + "'" ); 
+                        $('.toast-position-string-obj .toast-position-top').text( ( top !== 'auto' ) ? top : "'" + top + "'" ); 
+                        $('.toast-position-string-obj .toast-position-bottom').text(  ( bottom !== 'auto' ) ? bottom : "'" + bottom + "'"  ); 
+                    } else {
+                        $('.toast-position-string-obj').hide(); 
+                        // $('.toast-position-string-obj toast-position').text('');
+                    } 
+
+                    if ( !toastIcon ) {
+                        if ( toastBg ) {
+                            $('.toast-bgColor-line').show(); 
+                            $('.toast-bgColor-line .toast-bgColor').text( toastBg ); 
+                        } else {
+                            $('.toast-bgColor-line').hide(); 
+                            $('.toast-bgColor-line .toast-bgColor').text(''); 
+                        } 
+
+                        if ( toastTextColor ) {
+                            $('.toast-textColor-line').show(); 
+                            $('.toast-textColor-line .toast-textColor').text( toastTextColor ); 
+                        } else {
+                            $('.toast-textColor-line').hide(); 
+                            $('.toast-textColor-line .toast-textColor').text(''); 
+                        } 
+                    }
+
+                    if ( textAlign ) {
+                        $('.toast-textAlign-line').show(); 
+                        $('.toast-textAlign-line .toast-textAlign').text( textAlign ); 
+                    } else {
+                        $('.toast-textAlign-line').hide(); 
+                        $('.toast-textAlign-line .toast-textAlign').text( ''); 
+                    } 
+
+                    if (loader == 'false') {
+                        $('.toast-textLoader').html('false');
+                    } else {
+                        $('.toast-textLoader').html('true');
+                    }
+                    
+                    if (loaderBg) {
+                        $('.toast-textLoaderBg').html(loaderBg);
+                    }
+
+                    if ( toastEvents == 'false' ) {
+                        $('.toast-beforeShow-line').hide(); 
+                        $('.toast-afterShown-line').hide(); 
+                        $('.toast-beforeHide-line').hide(); 
+                        $('.toast-afterHidden-line').hide(); 
+                    } else {
+                        $('.toast-beforeShow-line').show(); 
+                        $('.toast-afterShown-line').show(); 
+                        $('.toast-beforeHide-line').show(); 
+                        $('.toast-afterHidden-line').show(); 
+                    } 
+                }
+
+                $('#top-position').on('change', function () { $('#bottom-position').val('auto'); });
+                $('#bottom-position').on('change', function () { $('#top-position').val('auto'); });
+                $('#left-position').on('change', function () { $('#right-position').val('auto'); });
+                $('#right-position').on('change', function () {$('#left-position').val('auto'); });
+                $('.plugin-options :input').on('change', function () {
+                  $.toast().reset('all');
+                  generateCode();
+                });
+
+                $('.generate-toast').on('click', function( e ) {
+                  e.preventDefault();
+                  generateToast();
+                });
+
+                function generateToast () {
+                    var options = {};
+
+                    if ( $('.toast-text-line').is(':visible') ) {
+                        options.text = $('.toast-text-line .toast-text').text();
+                    } 
+
+                    if ( $('.toast-heading-line').is(':visible') ) {
+                        options.heading = $('.toast-heading').text(); 
+                    }; 
+
+                    if ( $('.toast-transition-line').is(':visible') ) {
+                        options.showHideTransition = $('.toast-transition-line .toast-transition').text(); 
+                    }; 
+
+                    if ( $('.toast-allowToastClose-line').is(':visible') ) {
+                        options.allowToastClose = ( $('.toast-allowToastClose-line .toast-allowToastClose').text() === 'true' ) ? true : false; 
+                    }; 
+
+                    if ( $('.toast-hideAfter-line').is(':visible') ) {
+                        options.hideAfter = parseInt($('.toast-hideAfter-line .toast-hideAfter').text(), 10) || false; 
+                    }; 
+
+                    if ( $('.toast-stackLength-line').is(':visible') ) {
+                        options.stack = parseInt($('.toast-stackLength-line .toast-stackLength').text(), 10) || false; 
+                    }; 
+
+                    if ( $('.toast-position-string-line').is(':visible') ) {
+                        options.position = $('.toast-position-string-line .toast-position').text(); 
+                    }; 
+
+                    if ( $('.toast-position-string-obj').is(':visible') ) {
+                        options.position = {}; 
+                        options.position.left =  parseFloat( $('.toast-position .toast-position-left').text() ) || 'auto'; 
+                        options.position.right =  parseFloat( $('.toast-position .toast-position-right').text() ) || 'auto'; 
+                        options.position.top =  parseFloat( $('.toast-position .toast-position-top').text() ) || 'auto'; 
+                        options.position.bottom =  parseFloat( $('.toast-position .toast-position-bottom').text() ) || 'auto'; 
+                    }; 
+
+                    if ( $('.toast-icon-line').is(':visible') ) {
+                        options.icon = $('.toast-icon-line .toast-icon').text();
+                    };
+
+                    if ( $('.toast-bgColor-line').is(':visible') ) {
+                        options.bgColor = $('#toast-bg').val(); 
+                    }; 
+
+                    if ( $('.toast-text-color').is(':visible') ) {
+                        options.textColor = $('#toast-text-color').val(); 
+                    }; 
+
+                    if ( $("#text-align").is(':visible') ) {
+                        options.textAlign = $('#text-align').val(); 
+                    };
+
+                    options.loader = $('.toast-textLoader').html() === 'false' ? false : true;
+                    options.loaderBg = $('.toast-textLoaderBg').html();
+
+                    $.toast( options ); 
+                }
+
+                generateCode(); 
+            });
+        });
+    </script>
+</body>
+</html>

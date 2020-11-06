@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo - Toast Plugin</title>
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="sweetalert2.css">
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center; margin: 20px 0px;">Jquery Toast Plugin</h1>
+        <hr>
+        
+        <h1>Index</h1>
+        <div class="latest-update">
+            <h1 id="latest-update">Latest Update</h1>
+            <div class="code-runner" style="margin-left: 0px; margin-right: 0px;">
+                <input type="submit" class="btn btn-sm btn-primary" id="btn-simpan"  value="Simpan">
+            </div>
+            
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="sweetalert2.all.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            
+            $('#btn-simpan').click(function() {
+				Swal.fire({
+				  title: 'Are you sure?',
+				  text: "You won't be able to revert this!",
+				  type: 'question',
+				  showCancelButton: true,
+				  confirmButtonColor: '#3085d6',
+				  cancelButtonColor: '#d33',
+				  confirmButtonText: 'Iya Dongs!',
+				  cancelButtonText: 'Cancel Cuy',
+				  reverseButtons: true
+				}).then((result) => {
+				  if (result.value) {
+					Swal.fire(
+					  'Deleted!',
+					  'Your file has been deleted.',
+					  'success'
+					)
+				  }else{
+					Swal.fire(
+					  'Ah ',
+					  'Enak',
+					  'warning'
+					)
+				  }
+				});
+			});
+        });
+    </script>
+</body>
+</html>
