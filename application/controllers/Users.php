@@ -30,9 +30,83 @@
 				'judul_form'=>'Data Users',
 				'judul'=>'Users',
 				'main_view'=>'user/index',
-				// 'user' => $this->users_model->get_user()
+				'user' => $this->users_model->get_user()
 			];
 			$this->load->view('template/index', $data);
+		}
+
+		public function save()
+		{
+			$data = array (
+				array (
+					'field' => 'username',
+	                'label' => 'Kategori',
+	                'rules' => 'required',
+	                'errors' => array(
+	                    'required'  => '%s harus diisi!'
+	                    // 'is_unique' => '%s sudah terdaftar.'
+	                )
+				),
+				array (
+					'field' => 'password',
+	                'label' => 'Kategori',
+	                'rules' => 'required',
+	                'errors' => array(
+	                    'required'  => '%s harus diisi!'
+	                    // 'is_unique' => '%s sudah terdaftar.'
+	                )
+				),
+				array (
+					'field' => 'jabatan',
+	                'label' => 'Kategori',
+	                'rules' => 'required',
+	                'errors' => array(
+	                    'required'  => '%s harus diisi!'
+	                    // 'is_unique' => '%s sudah terdaftar.'
+	                )
+				),
+			);
+
+			$this->form_validation->set_rules($data);
+
+            if ($this->form_validation->run() == FALSE){
+                $this->session->set_flashdata('flash');
+                $this->index();
+            }else{
+            	$_POST['no_user'] = $_POST['username'];
+                $this->session->set_flashdata('flash', 'Disimpan');
+                $this->db->insert('user', $_POST);
+                redirect('users');
+            }
+		}
+
+		function update () {
+			$id = $this->input->post('id');
+			$this->db->where('id', $id);
+
+			$data = array (
+				'id' => $_POST['id'],
+				'no_user' => $_POST['username_edit'],
+				'username' => $_POST['username_edit'],
+				'password' => $_POST['password_edit'],
+				'jabatan' => $_POST['jabatan_edit'],
+			);
+			// print_r($data);exit;
+
+			$this->db->update('user', $data);
+        	$this->session->set_flashdata('flash', 'Diubah');
+			redirect('users');
+		}
+
+		function hapus($id)
+		{
+			# code...
+			$where = array(
+				'id' => $id 
+			);
+			$this->users_model->hapus_data($where, 'user');
+        	$this->session->set_flashdata('flash', 'Dihapus');
+			redirect('users');
 		}
 
 		// public function list_data()
@@ -116,74 +190,74 @@
 		// 	);
 		// }
 
-		public function list_data()
-		{
-			# code...
-			$list = $this->users_model->get_datatables();
-			// print_r($list);exit;
-			$data = array();
-			$no = @$_POST['start'];
+		// public function list_data()
+		// {
+		// 	# code...
+		// 	$list = $this->users_model->get_datatables();
+		// 	// print_r($list);exit;
+		// 	$data = array();
+		// 	$no = @$_POST['start'];
 			
-			foreach ($list as $r) {
-				# code...
-				$no++;
-				$hasil = [];
-				$hasil[] = $no.".";
-				$hasil[] = $r->no_user;
-				$hasil[] = $r->no_user;
-				$aksi = 
-				'<div class="text-center">
-					<a data-toggle="modal" data-target="#modal-edit-user" class="btn btn-warning btn-xs edit" data="'. $r->id .'"><i class="fa fa-pencil"></i></a>
-					<a href="javascript:;" class="btn btn-danger btn-xs hapus" data="'. $r->id .'"><i class="fa fa-trash"></i></a>
-				</div>';
-				$hasil[] = $aksi;
-				$data[] = $hasil;
-			}
-			$output = array 
-			(
-				"draw"	=>     @$_POST["draw"],  
-                "recordsTotal"	=>      $this->users_model->count_all(),  
-                "recordsFiltered"	=>     $this->users_model->count_filtered(),  
-                "data"	=>     $data  
-			);
-			echo json_encode($output);
-		}
+		// 	foreach ($list as $r) {
+		// 		# code...
+		// 		$no++;
+		// 		$hasil = [];
+		// 		$hasil[] = $no.".";
+		// 		$hasil[] = $r->no_user;
+		// 		$hasil[] = $r->no_user;
+		// 		$aksi = 
+		// 		'<div class="text-center">
+		// 			<a data-toggle="modal" data-target="#modal-edit-user" class="btn btn-warning btn-xs edit" data="'. $r->id .'"><i class="fa fa-pencil"></i></a>
+		// 			<a href="javascript:;" class="btn btn-danger btn-xs hapus" data="'. $r->id .'"><i class="fa fa-trash"></i></a>
+		// 		</div>';
+		// 		$hasil[] = $aksi;
+		// 		$data[] = $hasil;
+		// 	}
+		// 	$output = array 
+		// 	(
+		// 		"draw"				=> @$_POST["draw"],  
+  //               "recordsTotal"		=> $this->users_model->count_all(),  
+  //               "recordsFiltered"	=> $this->users_model->count_filtered(),  
+  //               "data"				=> $data  
+		// 	);
+		// 	echo json_encode($output);
+		// }
 
-		public function save()
-		{
-			// coba diarray kalo gabisa di 1-1
-			$input = array (
-				'no_user' 	=> 	$this->input->post('username'),
-				'username' 	=> 	$this->input->post('username'),
-				'password' 	=> 	$this->input->post('password'),
-				'jabatan' 	=>	$this->input->post('jabatan')
-			);
-			// $no_user = $this->input->post('username');
-			// $username = $this->input->post('username');
-			// $password = $this->input->post('password');
-			// $jabatan = $this->input->post('jabatan');
-			$data = $this->users_model->save($input);
-			echo json_encode($data);
-		}
+		// public function save()
+		// {
+		// 	// coba diarray kalo gabisa di 1-1
+		// 	$input = array (
+		// 		'no_user' 	=> 	$this->input->post('username'),
+		// 		'username' 	=> 	$this->input->post('username'),
+		// 		'password' 	=> 	$this->input->post('password'),
+		// 		'jabatan' 	=>	$this->input->post('jabatan')
+		// 	);
+		// 	// $no_user = $this->input->post('username');
+		// 	// $username = $this->input->post('username');
+		// 	// $password = $this->input->post('password');
+		// 	// $jabatan = $this->input->post('jabatan');
+		// 	$data = $this->users_model->save($input);
+		// 	echo json_encode($data);
+		// }
 
-		public function get_user()
-		{
-			# code...
-			$id = $this->input->get('id');
-			$data = $this->users_model->userByid($id);
-			echo json_encode($data);
-		}
+		// public function get_user()
+		// {
+		// 	# code...
+		// 	$id = $this->input->get('id');
+		// 	$data = $this->users_model->userByid($id);
+		// 	echo json_encode($data);
+		// }
 
-		public function update_data()
-		{
-			$id = $this->input->post('id');
-			$no_user = $this->input->post('username');
-			$username = $this->input->post('username');
-			$password = $this->input->post('password');
-			$jabatan = $this->input->post('jabatan');
+		// public function update_data()
+		// {
+		// 	$id = $this->input->post('id');
+		// 	$no_user = $this->input->post('username');
+		// 	$username = $this->input->post('username');
+		// 	$password = $this->input->post('password');
+		// 	$jabatan = $this->input->post('jabatan');
 
-			$data = $this->users_model->update_data($id,$no_user, $username, $password, $jabatan);
-			echo json_encode($data);
-		}
+		// 	$data = $this->users_model->update_data($id,$no_user, $username, $password, $jabatan);
+		// 	echo json_encode($data);
+		// }
 	}
 ?>

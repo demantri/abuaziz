@@ -8,9 +8,9 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <!-- <div class="modal-body"> -->
         <!--  -->
-        <form>
+        <form method="POST" action="<?= site_url('users/save') ?>">
           <div class="modal-body">
 
             <div class="form-group row">
@@ -35,19 +35,21 @@
             </div>
 
           </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" id="btn-save" class="btn btn-primary">Save changes</button>
-      </div>
+        <!-- </form> -->
+      <!-- </div> -->
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <input type="submit" id="btn-save" class="btn btn-primary" value="Save changes">
+	      </div>
+  		</form>
     </div>
   </div>
 </div>
 
 <!-- Modal edit -->
-<div class="modal fade" id="modal-edit-user" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<?php foreach ($user as $r) { ?>
+	<div class="modal fade" id="modal-edit-user<?= $r->id ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  	<div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Edit Users</h5>
@@ -55,51 +57,52 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <!-- <div class="modal-body"> -->
         <!--  -->
-        <form>
+        <form method="POST" action="<?= site_url('users/update') ?>">
           <div class="modal-body">
 
-          	<input type="text" name="id" id="id" class="hidden">
+          	<input type="text" name="id" id="id" class="hidden" value="<?= $r->id?>">
 
             <div class="form-group row">
                 <label for="username" class="col-sm-3 col-form-label">Username</label>
                 <div class="col-sm-9">
-                <input type="text" name="username_edit" class="form-control username1" placeholder="Username" id="username1" autocomplete="off">
+                <input type="text" name="username_edit" class="form-control username1" placeholder="Username" id="username1" value="<?= $r->username ?>" autocomplete="off">
                 </div>
             </div>
 
             <div class="form-group row">
                 <label for="password" class="col-sm-3 col-form-label">Password</label>
                 <div class="col-sm-9">
-                <input type="password" class="form-control password1" id="password2" name="password_edit" placeholder="Password" autocomplete="off">
+                <input type="password" class="form-control password1" id="password2" name="password_edit" placeholder="Password" value="<?= $r->password ?>" autocomplete="off">
                 </div>
             </div>
 
             <div class="form-group row">
                 <label for="jabatan" class="col-sm-3 col-form-label">Jabatan</label>
                 <div class="col-sm-9">
-                <input type="text" class="form-control jabatan1" id="jabatan2" name="jabatan_edit" placeholder="Jabatan" autocomplete="off">
+                <input type="text" class="form-control jabatan1" id="jabatan2" name="jabatan_edit" placeholder="Jabatan" value="<?= $r->jabatan?>" autocomplete="off">
                 </div>
             </div>
-
           </div>
-        </form>
-      </div>
+      <!-- </div> -->
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" id="btn-edit" class="btn btn-success">Update</button>
+        <!-- <button type="button" id="btn-edit" class="btn btn-success">Update</button> -->
+	    <input type="submit" id="btn-edit" class="btn btn-primary" value="Update">
       </div>
+      </form>
     </div>
-  </div>
-</div>
+  	</div>
+	</div>
+<?php } ?>
 
 <!-- js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/core.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/md5.js"></script>
-<script src="https://https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.js"></script>
+<!-- <script src="https://https://cdn.datatables.net/responsive/2.2.6/js/dataTables.responsive.js"></script> -->
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 	$(document).ready(function() {
 
 	    tampil_data();
@@ -178,7 +181,6 @@
 	                    '</tr>';
 	          }
 	          $('#show_data').html(html);
-	          // console.log(data)
 	        }
 	      });
 	    }
@@ -233,6 +235,7 @@
 			            $('[name = "jabatan_edit"]').val("");
 			            $('#modal-edit-user').modal("hide");
 	            		tampil_data();
+	            		location.reload();
 	          		}
 	      		});
 	      	return false;

@@ -23,6 +23,13 @@
 			return $query;
 		}
 
+		public function hapus_data($where, $table)
+		{
+			# code...
+			$this->db->where($where);
+			$this->db->delete($table);
+		}
+
 		public function userByid($id)
 		{
 			# code...
