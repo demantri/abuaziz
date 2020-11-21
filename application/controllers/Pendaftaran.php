@@ -143,7 +143,7 @@ class Pendaftaran extends CI_Controller {
 			'delete' => "0",
 			'angkatan'	=> $_POST['no_ajaran']
 		);
-		print_r($data_pendaftaran);exit;
+		// print_r($data_pendaftaran);exit;
 		$q = $this->model_pendaftaran->tambah('siswa', $data_pendaftaran);
 		
 		$no_transaksi = $this->model_pendaftaran->kode_tr();

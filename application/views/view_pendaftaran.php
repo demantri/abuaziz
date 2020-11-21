@@ -69,10 +69,11 @@
 						<label for="password">Jenis Kelamin</label>
 						<div class="form-group">
 							<div class="form-line">
-
-								<input type="radio" name="jenis_kelamin" value="Laki-laki" id="l" data-validate-field="jenis_kelamin" > Laki-laki
-
-								<input type="radio" name="jenis_kelamin" value="Perempuan" id="p" data-validate-field="jenis_kelamin" > Perempuan
+								<select name="jenis_kelamin" class="form-control">
+									<option value="">- Pilih Jenis Kelamin -</option>
+									<option value="Laki-laki">Laki-laki</option>
+									<option value="Perempuan">Perempuan</option>
+								</select>
 							</div>
 						</div>
 					</div>
