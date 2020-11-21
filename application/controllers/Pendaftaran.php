@@ -32,7 +32,7 @@ class Pendaftaran extends CI_Controller {
 		
 		if($q){
 			echo "<select name='no_ajaran' id='no_ajaran' data-validate-field='no_ajaran' class='form-control'>
-            <option value =''>--Pilih Angkatan--</option>";
+            <option value =''>- Pilih Angkatan -</option>";
 			foreach($q as $row){
 				echo "<option  value='$row->no'>$row->nama_ajaran</option>";
 			}
@@ -143,7 +143,7 @@ class Pendaftaran extends CI_Controller {
 			'delete' => "0",
 			'angkatan'	=> $_POST['no_ajaran']
 		);
-		
+		print_r($data_pendaftaran);exit;
 		$q = $this->model_pendaftaran->tambah('siswa', $data_pendaftaran);
 		
 		$no_transaksi = $this->model_pendaftaran->kode_tr();
@@ -151,12 +151,19 @@ class Pendaftaran extends CI_Controller {
 			'no_transaksi' => $no_transaksi,
 			// 'tanggal_transaksi' => date('Y-m-d', strtotime($this->input->post("tanggal_transaksi"))),
 			'tanggal_transaksi' => $this->input->post("tanggal_transaksi"),
-			'jam' => $this->input->post("jam"),
+			// 'jam' => $this->input->post("jam"),
 			'nama_transaksi' => "pendaftaran",
 			'no_user' => $this->session->userdata('no_user')
 		);
 		
 		$transaksi = $this->model_pendaftaran->tambah('transaksi', $data_transaksi);
+
+		// record data after processing pendaftaran into kelas
+		$data_kelas = array (
+			'no_siswa' => $no_siswa,
+			'nama_kelas' => $this->input->post('kelas')
+		);
+		$record_kelas = $this->model_pendaftaran->tambah('kelas', $data_kelas);
 		
 		$jenis_pembayaran=$this->input->post("jenis_pembayaran");
 		if($jenis_pembayaran == "tunai"){

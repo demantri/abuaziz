@@ -17,7 +17,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+				<!-- <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 					<label for="email_address">Jam</label>
 					<div class="form-group">
 						<div class="form-line">
@@ -25,7 +25,7 @@
 							<input type="text" placeholder="Tanggal Transaksi" data-validate-field="jam" name="jam" id="jam" class="form-control" value = "<?php echo date('H:i:s');?>" readonly>
 						</div>
 					</div>
-				</div>
+				</div> -->
 				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 					<label for="password">Biaya Daftar Ulang</label>
 					<div class="form-group">

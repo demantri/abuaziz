@@ -36,6 +36,7 @@ class Master_pengeluaran extends CI_Controller {
 			$row = array();
 			$row[] = "<span class='size'>".$no."</span>";
 			$row[] = "<span class='size'>".$master_pengeluaran->nama_pengeluaran."</span>";
+			$row[] = "<span class='size'>".$master_pengeluaran->jenis."</span>";
 			$aksi = '';
 				$aksi.='
 				<a class="btn btn-xs btn-primary" href="javascript:void()" title="Edit" onclick="edit(\''. $master_pengeluaran->no_pengeluaran.'\')">
@@ -60,19 +61,38 @@ class Master_pengeluaran extends CI_Controller {
 	}
 
 	public function tambah(){
-		
-		$no_pengeluaran = $this->model_master_pengeluaran->kode();
-		$data_master_pengeluaran = array(
-			'no_pengeluaran' => $no_pengeluaran,
-			'nama_pengeluaran' => $this->input->post("nama_pengeluaran"),
-			'delete' => "0"
-		);
-		$q = $this->model_master_pengeluaran->tambah('master_pengeluaran', $data_master_pengeluaran);
-		if($q){
-			echo json_encode(array('status' => "benar"));
+		$this->form_validation->set_rules('nama_pengeluaran', 'Nama Pengeluaran', 'required|is_unique[master_pengeluaran.nama_pengeluaran]');
+	
+		if($this->form_validation->run() == TRUE){
+			$no_pengeluaran = $this->model_master_pengeluaran->kode();
+			$data_master_pengeluaran = array(
+				'no_pengeluaran' => $no_pengeluaran,
+				'nama_pengeluaran' => $this->input->post("nama_pengeluaran"),
+				'jenis'	=> $this->input->post('jenis'),
+				'delete' => "0"
+			);
+			$q = $this->model_master_pengeluaran->tambah('master_pengeluaran', $data_master_pengeluaran);
+			if($q){
+				$res = [
+					'status'  => true,
+					'message' => 'Data berhasil dimasukkan'
+				];
+			}else{
+				$res = [
+					'status'  => false,
+					'message' => 'Data gagal dimasukkan'
+				];
+			}
+
 		}else{
-			echo json_encode(array('status' => "salah"));
-		}
+			$res = [
+				'status'  => false,
+				'message' => validation_errors()
+			];
+		}	
+
+		echo json_encode($res);
+		
 	}
 	
 	public function data()
@@ -88,19 +108,51 @@ class Master_pengeluaran extends CI_Controller {
 	
 	public function ubah()
 	{
-		$no_pengeluaran = $this->input->post("aksi");
-		$nama_pengeluaran = $this->input->post("nama_pengeluaran");
-		$field = array('*');
-		
-		$data_master_pengeluaran = array(
-			'nama_pengeluaran' => $this->input->post("nama_pengeluaran")
-		);
-		$q = $this->model_master_pengeluaran->ubah("master_pengeluaran", $data_master_pengeluaran, "no_pengeluaran = '$no_pengeluaran' ");
-		if($q){
-			echo json_encode(array('status' => "benar"));
-		}else{
-			echo json_encode(array('status' => "salah"));
+		$list_cek = ['nama_pengeluaran'];
+
+		foreach ($list_cek as $row) {
+			if($p[$row] == $cek[$row]){
+				$s = true;
+			
+			}else{
+				$cek = $this->model_master_pengeluaran->get_detail($row, $p[$row])->num_rows();
+				if($cek == 0){
+					$s = true;
+				}else{
+					$this->session->set_flashdata('alert_message', show_alert('<i class="fa fa-warning"></i> '.$row.' sudah ada','warning'));
+					$s = false;
+					$res = [
+						'status'  => false,
+						'message' => $row." Sudah Ada"
+					];
+					break;
+				}
+			}
 		}
+
+		if($s){
+			$no_pengeluaran = $this->input->post("aksi");
+			$nama_pengeluaran = $this->input->post("nama_pengeluaran");
+			$field = array('*');
+			
+			$data_master_pengeluaran = array(
+				'nama_pengeluaran' => $this->input->post("nama_pengeluaran"),
+				'jenis' => $this->input->post('jenis')
+			);
+			$q = $this->model_master_pengeluaran->ubah("master_pengeluaran", $data_master_pengeluaran, "no_pengeluaran = '$no_pengeluaran' ");
+			if($q){
+				$res = [
+					'status'  => true,
+					'message' => 'Data berhasil diubah'
+				];
+			}else{
+				$res = [
+					'status'  => false,
+					'message' => 'Data gagal diubah'
+				];
+			}
+		}
+		
 	}
 
 	public function hapus()
@@ -112,9 +164,17 @@ class Master_pengeluaran extends CI_Controller {
 		);
 		$q = $this->model_master_pengeluaran->hapus("master_pengeluaran", $data_master_pengeluaran, "no_pengeluaran = '$no_pengeluaran' ");
 		if($q){
-			echo json_encode(array('status' => "benar"));
+			$res = [
+				'status'  => true,
+				'message' => 'Data berhasil dihapus'
+			];
 		}else{
-			echo json_encode(array('status' => "salah"));
+			$res = [
+				'status'  => false,
+				'message' => 'Data gagal dihapus'
+			];
 		}
+
+		echo json_encode($res);
 	}
 }

@@ -15,6 +15,18 @@
 							<input type="text" placeholder="Nama Master Pengeluaran" data-validate-field="nama_pengeluaran" name="nama_pengeluaran" id="nama_pengeluaran" class="form-control">
 						</div>
 					</div>
+
+					<label for="password">Jenis Pengeluaran</label>
+					<div class="form-group">
+						<div class="form-line">
+							<select data-validate-field="jenis" class="form-control" required="" name="jenis" id="jenis">
+								<option value="">Pilih</option>
+								<option value="peralatan">Peralatan</option>
+								<option value="perlengkapan">Perlengkapan</option>
+							</select>
+						</div>
+					</div>
+
 					<div class="modal-footer">
 						<button type="button" name="simpan" class="btn btn-sm btn-default" onclick="batal()">Batal</button>
 						<button type="submit" name="simpan" class="btn btn-sm btn-primary" >Simpan</button>
@@ -43,6 +55,7 @@
 							<tr>
 								<th>No</th>
 								<th>Nama Master Pengeluaran</th>
+								<th>Jenis</th>
 								<th>Aksi</th>
 							</tr>
 						</thead>
@@ -102,7 +115,10 @@ $(document).ready(function(){
 			success:function(msg){
 				$('input[name="aksi"]').val(msg.no_pengeluaran);
 				$('input[name="nama_pengeluaran"]').val(msg.nama_pengeluaran);
-				
+
+				$('#jenis option').removeAttr('selected');
+				$('#jenis option[value="'+msg.jenis+'"]').attr('selected','selected');
+
 				$('#modal-form-master_pengeluaran').fadeIn('slow');
 				$('#modal-data-master_pengeluaran').fadeOut('slow');
 				$('#form-title').html("Edit Data");
@@ -129,26 +145,24 @@ $(document).ready(function(){
 				type:'POST',
 				dataType:'JSON',
 				success: function(response) {
-					if(response.status =="benar") {
-						Swal.fire(
-						  'Terhapus!',
-						  'Data Telah Berhasil Dihapus',
-						  'success'
-						)
+					if(response.status) {
+						$.toast({
+							heading: 'Info',
+							text: 'Data Berhasil dihapus!',
+							position: 'top-right',
+							showHideTransition: 'slide',
+							icon: 'info'
+						});
 						table.ajax.reload();  //just reload table
 						batal();  //just reload table
-					} else if(response.status =="salah"){
-						Swal.fire(
-						  'Gagal!',
-						  'Data Gagal Untuk Dihapus!',
-						  'error'
-						)
-					} else if(response.status =="blokir"){
-						Swal.fire(
-						  'Ups!',
-						  'Anda Tidak Memiliki Hak Akses!',
-						  'warning'
-						)
+					} else{
+						$.toast({
+							heading: 'Bahaya',
+							text: response.message,
+							position: 'top-right',
+							showHideTransition: 'slide',
+							icon: 'error'
+						});
 					}
 				}
 			});
@@ -167,12 +181,18 @@ $(document).ready(function(){
         rules: {
             nama_pengeluaran: {
                 required: true
+            },
+            jenis: {
+                required: true
             }
         },
 		messages: {
 		  nama_pengeluaran: {
 			required: 'Form Tidak Boleh Kosong'
-		  }
+		  },
+		  jenis: {
+			required: 'Form Tidak Boleh Kosong'
+		  },
 		},
 
         submitHandler: function (form, values, ajax) {
@@ -188,7 +208,7 @@ $(document).ready(function(){
 			  data: values,
 			  dataType: "JSON",
 			  success: function(response) {
-				if(response.status =="benar") {
+				if(response.status) {
 					$.toast({
 						heading: 'Info',
 						text: 'Data Berhasil Ditambah!',
@@ -198,18 +218,10 @@ $(document).ready(function(){
 					});
 					table.ajax.reload();  //just reload table
 					batal();  //just reload table
-				} else if(response.status =="salah"){
+				} else{
 					$.toast({
 						heading: 'Bahaya',
-						text: 'Data Gagal Ditambah!',
-						position: 'top-right',
-						showHideTransition: 'slide',
-						icon: 'error'
-					});
-				} else if(response.status =="blokir"){
-					$.toast({
-						heading: 'Ups',
-						text: 'Anda Tidak Memiliki Akses!',
+						text: response.message,
 						position: 'top-right',
 						showHideTransition: 'slide',
 						icon: 'error'

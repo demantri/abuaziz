@@ -43,14 +43,14 @@
 		<li><a href="<?= site_url('buku_besar'); ?>"><span class="mini-sub-pro">Buku Besar</span></a></li>
 		<li><a href="<?= site_url('neraca_saldo'); ?>"><span class="mini-sub-pro">Neraca Saldo</span></a></li>
 		<li><a href="<?= site_url('laporan_kas'); ?>"><span class="mini-sub-pro">Laporan Kas Masuk</span></a></li>
-        <li><a href="<?= site_url('laporan_pemb'); ?>"><span class="mini-sub-pro">Pembayaran SPP</span></a></li>
+        <li><a href="<?= site_url('laporan_pemb'); ?>"><span class="mini-sub-pro">Pendapatan SPP</span></a></li>
         <li><a href="<?= site_url('laporan_tung'); ?>"><span class="mini-sub-pro">Tunggakan SPP</span></a></li>
 	</ul>
 </li>
 <?php }?>
 
 <?php if($this->session->userdata('jabatan')=="Bendahara Yayasan"){?>
-<li>
+<!-- <li>
 	<a class="has-arrow" href="#">
 		   <span class="educate-icon educate-course icon-wrap"></span>
 		   <span class="mini-click-non">Master Data</span>
@@ -81,6 +81,47 @@
 	<ul class="submenu-angle" aria-expanded="true">
 		<li><a href="<?= site_url('jurnal'); ?>"><span class="mini-sub-pro">Jurnal</span></a></li>
 		<li><a href="<?= site_url('buku_besar'); ?>"><span class="mini-sub-pro">Buku Besar</span></a></li>
+	</ul>
+</li> -->
+
+<li>
+	<a class="has-arrow" href="#">
+		   <span class="educate-icon educate-course icon-wrap"></span>
+		   <span class="mini-click-non">Master Data</span>
+		</a>
+	<ul class="submenu-angle" aria-expanded="true">
+		<li><a title="Dashboard v.1" href="<?= site_url('akun'); ?>"><span class="mini-sub-pro">Akun</span></a></li>
+		<li><a title="Dashboard v.1" href="<?= site_url('beban_beban'); ?>"><span class="mini-sub-pro">Beban-beban</span></a></li>
+		<li><a title="Dashboard v.1" href="<?= site_url('master_pendapatan'); ?>"><span class="mini-sub-pro">Pendapatan Yayasan</span></a></li>
+		<li><a title="Dashboard v.1" href="<?= site_url('master_pengeluaran'); ?>"><span class="mini-sub-pro">Pengeluaran Lain-lain</span></a></li>
+	</ul>
+</li>
+<li>
+	<a class="has-arrow" href="#">
+		   <span class="educate-icon educate-course icon-wrap"></span>
+		   <span class="mini-click-non">Transaksi</span>
+		</a>
+	<ul class="submenu-angle" aria-expanded="true">
+		<li><a title="Dashboard v.1" href="<?= site_url('pendapatan_dll'); ?>"><span class="mini-sub-pro">Pemasukan Yayasan</span></a></li>
+		<li><a title="Dashboard v.1" href="<?= site_url('pendapatan'); ?>"><span class="mini-sub-pro">Pemasukan Lain - Lain</span></a></li>
+		
+		<li><a title="Dashboard v.1" href="<?= site_url('beban'); ?>"><span class="mini-sub-pro">Pengeluaran Beban</span></a></li>
+		<li><a title="Dashboard v.1" href="<?= site_url('pengeluaran_dll'); ?>"><span class="mini-sub-pro">Pengeluaran Lain-lain</span></a></li>
+	</ul>
+</li>
+
+
+
+<li>
+	<a class="has-arrow" href="#">
+		   <span class="educate-icon educate-course icon-wrap"></span>
+		   <span class="mini-click-non">Laporan</span>
+		</a>
+	<ul class="submenu-angle" aria-expanded="true">
+		<li><a title="Dashboard v.1" href="<?= site_url('jurnal'); ?>"><span class="mini-sub-pro">Jurnal</span></a></li>
+		<li><a title="Dashboard v.1" href="<?= site_url('buku_besar'); ?>"><span class="mini-sub-pro">Buku Besar</span></a></li>
+		<li><a title="Dashboard v.1" href="<?= site_url('laporan/pendapatan'); ?>"><span class="mini-sub-pro">Laporan Pendapatan</span></a></li>
+		<li><a title="Dashboard v.1" href="<?= site_url('laporan/pengeluaran'); ?>"><span class="mini-sub-pro">Laporan Pengeluaran</span></a></li>
 	</ul>
 </li>
 <?php }?>

@@ -28,15 +28,33 @@ class Spp extends CI_Controller {
 	
 	public function list_siswa()
 	{
-		$q = $this->db->where(array('a.delete' => 0, 'status_siswa' => 'Siswa'))->from('siswa a')->join('tahun_ajaran b','a.angkatan = b.no')->join('kelas c','a.no_siswa = c.no_siswa')->get()->result();
+		$q = $this->db->where(array(
+			'a.delete' => 0, 
+			'status_siswa' => 'Siswa'))
+			->from('siswa a')
+			->join('tahun_ajaran b','a.angkatan = b.no')
+			->join('kelas c','a.no_siswa = c.no_siswa')
+			->get()
+			->result();
+		// print_r($q);exit;
 		
 		if($q){
 			echo "<select name='no_siswa' id='no_siswa' data-validate-field='no_siswa' class='form-control'>
             <option value =''>--Pilih Siswa--</option>";
 			foreach($q as $row){
-				$count = $this->db->select('count(a.no_transaksi) as no')->from('daftar_ulang a')->join('transaksi b','a.no_transaksi = b.no_transaksi')->where(array('YEAR(tanggal_transaksi)' => date('Y'), 'no_siswa' => $row->no_siswa))->get()->row_array()['no'];
+				$count = $this->db->select('count(a.no_transaksi) as no')->from('pendaftaran a')->join('transaksi b','a.no_transaksi = b.no_transaksi')->where(array('YEAR(b.tanggal_transaksi)' => date('Y'), 'no_siswa' => $row->no_siswa))->get()->row_array()['no'];
+				// echo $count;exit;
 				if ($count > 0) {
-					echo "<option value='".$row->no_siswa."'>".$row->nama_siswa." - Angkatan ".$row->nama_ajaran." - Kelas ".$row->nama_kelas."</option>";
+					$kelas = $row->nama_kelas;
+					if (!is_null($kelas)) {
+					// 	$kelas = '' ;
+					// } else {
+					// 	$kelas = '- Kelas' .$kelas;
+						echo "<option value='".$row->no_siswa."'>".$row->nama_siswa." - Angkatan ".$row->nama_ajaran." - Kelas ".$kelas."</option>";
+					}
+					//  else {
+					// 	echo "<option value='".$row->no_siswa."'>".$row->nama_siswa." - Angkatan ".$row->nama_ajaran." </option>";
+					// }
 				}
 			}
 			echo "</select>";
@@ -82,11 +100,21 @@ class Spp extends CI_Controller {
 		$list = $this->model_spp->get_datatables();
 		$arr = array();
 		foreach ($list as $row) {
-			$count = $this->db->select('sum(a.no_transaksi) as total, tanggal_transaksi')->where(array('no_siswa' => $row['no_siswa'], 'YEAR(tanggal_transaksi)' => $tahun, 'MONTH(tanggal_transaksi)' => $bulan))->from('transaksi a')->join('spp b','a.no_transaksi = b.no_transaksi')->get()->row_array();
+			$count = $this->db->select('sum(a.no_transaksi) as total, tanggal_transaksi, tgl_bayar')
+			->where(array(
+				'no_siswa' => $row['no_siswa'], 
+				'YEAR(tanggal_transaksi)' => $tahun, 
+				'MONTH(tanggal_transaksi)' => $bulan)
+				)
+				->from('transaksi a')
+				->join('spp b','a.no_transaksi = b.no_transaksi')
+				->get()
+				->row_array();
+				// print_r($count);exit;
 			
 			if ($count['total'] != null) {
 				$row['status']  = 'Sudah Bayar';
-				$row['tgl'] 	= $count['tanggal_transaksi'];
+				$row['tgl'] 	= $count['tgl_bayar'];
 				$row['periode']	= date('F Y', strtotime($count['tanggal_transaksi']));
 				$arr[]			= $row;
 			} else {
@@ -105,6 +133,7 @@ class Spp extends CI_Controller {
 		$data = array();
 		$no = $_POST['start'];
 		foreach ($arr as $siswa) {
+			// print_r($siswa);exit;
 			$no++;
 			$spasi = "&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;";
 			$row = array();
@@ -164,9 +193,10 @@ class Spp extends CI_Controller {
 			'no_transaksi' => $no_transaksi,
 			'no_siswa' => $this->input->post("no_siswa"),
 			'biaya_spp' => $this->input->post("biaya_spp"),
-			'keterangan' => date('F')
+			'keterangan' => date('F'),
+			'tgl_bayar' => $this->input->post('periode')
 		);
-		
+		// print_r($data_spp);exit;
 		$spp = $this->model_spp->tambah('spp', $data_spp);
 		if($spp){
 			$jurnal1 = array(

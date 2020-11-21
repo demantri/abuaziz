@@ -13,6 +13,16 @@
 						<div class="form-line">
 							<input type="hidden" data-validate-field="aksi" name="aksi" id="aksi" class="form-control">
 							<input type="text" placeholder="Nama Master Pendapatan" data-validate-field="nama_pendapatan" name="nama_pendapatan" id="nama_pendapatan" class="form-control">
+
+							<?php if($this->session->userdata('jabatan') == 'Bendahara Yayasan'){ ?>
+								<br>
+								<select class="form-control" name="no_akun" required=""  data-validate-field="no_akun" id="no_akun">
+									<option value="">Pilih Akun</option>
+									<?php foreach ($akun as $row) { ?>
+										<option value="<?= $row['no_akun'] ?>"><?= $row['no_akun']." - ".$row['nama_akun'] ?></option>
+									<?php } ?>
+								</select>
+							<?php } ?>
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -42,7 +52,10 @@
 						<thead>
 							<tr>
 								<th>No</th>
-								<th>Kode Pendapatan</th>
+								<th>No Pendapatan</th>
+								<?php if($this->session->userdata('jabatan') == 'Bendahara Yayasan'){ 
+									echo "<th>Akun</th>";
+								}?>
 								<th>Nama Master Pendapatan</th>
 								<th>Aksi</th>
 							</tr>
@@ -113,13 +126,14 @@ $(document).ready(function(){
 	
 	function hapus(no_pendapatan){
 		Swal.fire({
-		  title: 'Hapus Data?',
+		  title: 'Hapus Data Ini?',
+		  text: "Kalo Udah Dihapus Ga Akan Balik Lagi Loh!",
 		  type: 'question',
 		  showCancelButton: true,
 		  confirmButtonColor: '#3085d6',
 		  cancelButtonColor: '#d33',
-		  confirmButtonText: 'Hapus',
-		  cancelButtonText: 'Batal',
+		  confirmButtonText: 'Hapus!',
+		  cancelButtonText: 'Jangan!',
 		  reverseButtons: true
 		}).then((result) => {
 		  if (result.value) {
@@ -129,32 +143,31 @@ $(document).ready(function(){
 				type:'POST',
 				dataType:'JSON',
 				success: function(response) {
-					if(response.status =="benar") {
-						Swal.fire(
-						  'Data Telah Berhasil Dihapus',
-						  'success'
-						)
+					if(response.status) {
+						$.toast({
+							heading: 'Info',
+							text: 'Data Berhasil dihapus!',
+							position: 'top-right',
+							showHideTransition: 'slide',
+							icon: 'info'
+						});
 						table.ajax.reload();  //just reload table
 						batal();  //just reload table
-					} else if(response.status =="salah"){
-						Swal.fire(
-						  'Gagal!',
-						  'Data Gagal Untuk Dihapus!',
-						  'error'
-						)
-					} else if(response.status =="blokir"){
-						Swal.fire(
-						  'Ups!',
-						  'Anda Tidak Memiliki Hak Akses!',
-						  'warning'
-						)
+					} else{
+						$.toast({
+							heading: 'Bahaya',
+							text: response.message,
+							position: 'top-right',
+							showHideTransition: 'slide',
+							icon: 'error'
+						});
 					}
 				}
 			});
 		  }else{
 			Swal.fire(
 			  'Batal',
-			  'Data Batal Dihapus',
+			  'Data Batal Untuk Dihapus',
 			  'warning'
 			)
 		  }
@@ -166,10 +179,16 @@ $(document).ready(function(){
         rules: {
             nama_pendapatan: {
                 required: true
+            },
+            no_akun : {
+            	required : true
             }
         },
 		messages: {
 		  nama_pendapatan: {
+			required: 'Form Tidak Boleh Kosong'
+		  },
+		  no_akun: {
 			required: 'Form Tidak Boleh Kosong'
 		  }
 		},
@@ -187,7 +206,7 @@ $(document).ready(function(){
 			  data: values,
 			  dataType: "JSON",
 			  success: function(response) {
-				if(response.status =="benar") {
+				if(response.status) {
 					$.toast({
 						heading: 'Info',
 						text: 'Data Berhasil Ditambah!',
@@ -197,18 +216,10 @@ $(document).ready(function(){
 					});
 					table.ajax.reload();  //just reload table
 					batal();  //just reload table
-				} else if(response.status =="salah"){
+				} else{
 					$.toast({
 						heading: 'Bahaya',
-						text: 'Data Gagal Ditambah!',
-						position: 'top-right',
-						showHideTransition: 'slide',
-						icon: 'error'
-					});
-				} else if(response.status =="blokir"){
-					$.toast({
-						heading: 'Ups',
-						text: 'Anda Tidak Memiliki Akses!',
+						text: response.message,
 						position: 'top-right',
 						showHideTransition: 'slide',
 						icon: 'error'

@@ -8,11 +8,12 @@
 		<div class="sparkline13-graph">
 			<div class="datatable-dashv1-list custom-datatable-overright">
 				<form action="#" class="js-form-beban form" id="form-beban">
-					<label for="email_address">Tanggal Pengeluaran Beban</label>
+					<input type="hidden" data-validate-field="aksi" name="aksi" id="aksi" class="form-control">
+
+					<label for="password">Tanggal Pengeluaran</label>
 					<div class="form-group">
 						<div class="form-line">
-							<input type="hidden" data-validate-field="aksi" name="aksi" id="aksi" class="form-control">
-							<input type="text" placeholder="Tanggal Transaksi" data-validate-field="tanggal_transaksi" name="tanggal_transaksi" id="tanggal_transaksi" class="form-control">
+							<input type="text" placeholder="Tanggal Transaksi" data-validate-field="tanggal_transaksi" name="tanggal_transaksi" id="tanggal_transaksi" class="form-control" value = "<?php echo date('Y-m-d');?>" readonly >
 						</div>
 					</div>
 					<label for="password">Nama Pengeluaran</label>
@@ -27,13 +28,13 @@
 					<label for="password">Jumlah Pengeluaran</label>
 					<div class="form-group">
 						<div class="form-line">
-							<input type="text" data-validate-field="total_pengeluaran" name="total_pengeluaran" id="total_pengeluaran" class="form-control">
+							<input autocomplete="off" type="text" data-validate-field="total_pengeluaran" name="total_pengeluaran" id="total_pengeluaran" class="form-control">
 						</div>
 					</div>
 					<label for="password">Keterangan</label>
 					<div class="form-group">
 						<div class="form-line">
-							<input type="text" placeholder="Keterangan" data-validate-field="keterangan" name="keterangan" id="keterangan" class="form-control">
+							<input autocomplete="off" type="text" placeholder="Keterangan" data-validate-field="keterangan" name="keterangan" id="keterangan" class="form-control">
 						</div>
 					</div>
 					<div class="modal-footer">
@@ -64,6 +65,7 @@
 							<tr>
 								<th>No</th>
 								<th>No Transaksi</th>
+								<th>Tanggal Transaksi</th>
 								<th>Nama Beban</th>
 								<th>Total Pengeluaran</th>
 								<th>Keterangan</th>
@@ -79,7 +81,7 @@
 <!-- #END# Basic Examples -->
 <script type="text/javascript">
 $('#total_pengeluaran').number( true, 0,'', '' );
-$('input[name="tanggal_transaksi"]').datetimepicker({
+/**$('input[name="tanggal_transaksi"]').datetimepicker({
         language:  'id',
         format:'yyyy-mm-dd',
         weekStart: 1,
@@ -89,7 +91,7 @@ $('input[name="tanggal_transaksi"]').datetimepicker({
 		startView: 2,
 		minView: 2,
 		forceParse: 0
-    });
+    });**/
 
 $(window).ready(function(){
     //datatables
@@ -214,7 +216,7 @@ $(window).ready(function(){
 				  contentType : false,
 				  processData : false,
 				  success: function(response) {
-					if(response.status =="benar") {
+					if(response.status){
 						$.toast({
 							heading: 'Info',
 							text: 'Data Berhasil Ditambah!',
@@ -222,21 +224,12 @@ $(window).ready(function(){
 							showHideTransition: 'slide',
 							icon: 'info'
 						});
-						$("#tbodyid").empty();
 						table.ajax.reload();  //just reload table
 						batal();  //just reload table
-					} else if(response.status =="salah"){
+					}else{
 						$.toast({
 							heading: 'Bahaya',
-							text: 'Data Gagal Ditambah!',
-							position: 'top-right',
-							showHideTransition: 'slide',
-							icon: 'error'
-						});
-					} else if(response.status =="blokir"){
-						$.toast({
-							heading: 'Ups',
-							text: 'Anda Tidak Memiliki Akses!',
+							text: response.message,
 							position: 'top-right',
 							showHideTransition: 'slide',
 							icon: 'error'

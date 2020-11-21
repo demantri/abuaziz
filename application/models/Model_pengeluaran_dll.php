@@ -1,22 +1,22 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Model_master_pendapatan extends CI_Model
+class Model_pengeluaran_dll extends CI_Model
 {
-    var $column_order = array(null, 'nama_pendapatan'); //set column field database for datatable orderable
-	var $column_search = array('nama_pendapatan'); //set column field database for datatable searchable 
-	var $order = array('no_pendapatan' => 'asc'); // default order 
+    var $column_order = array(null, 'tanggal_transaksi', 'nama_pengeluaran', 'jumlah_pengeluaran', 'keterangan'); //set column field database for datatable orderable
+	var $column_search = array('tanggal_transaksi', 'nama_pengeluaran', 'jumlah_pengeluaran', 'keterangan'); //set column field database for datatable searchable 
+	var $order = array('pengeluaran_lain_lain.no_transaksi' => 'asc'); // default order 
 	
 	private function _get_datatables_query()
 	{
 		
-		$this->db->from('master_pendapatan')
-				 ->join('akun', 'akun.no_akun = master_pendapatan.no_akun', 'LEFT')
-				 ->where('input_by', $this->session->userdata('jabatan'));
+		$this->db->from('transaksi');
+		$this->db->join('pengeluaran_lain_lain', 'transaksi.no_transaksi = pengeluaran_lain_lain.no_transaksi', 'left');
+		$this->db->join('master_pengeluaran', 'pengeluaran_lain_lain.no_pengeluaran = master_pengeluaran.no_pengeluaran', 'left');
 		$i = 0;
 	
 		foreach ($this->column_search as $item) // loop column 
 		{
-			$this->db->where('master_pendapatan.delete', '0');
+			$this->db->where('transaksi.nama_transaksi', 'pengeluaran lain-lain');
 			if($_POST['search']['value']) // if datatable send POST for search
 			{
 				
@@ -65,8 +65,10 @@ class Model_master_pendapatan extends CI_Model
 
 	public function count_all()
 	{
-		$this->db->from('master_pendapatan');
-		$this->db->where('delete', '0');
+		$this->db->from('transaksi');
+		$this->db->join('pengeluaran_lain_lain', 'transaksi.no_transaksi = pengeluaran_lain_lain.no_transaksi', 'left');
+		$this->db->join('master_pengeluaran', 'pengeluaran_lain_lain.no_pengeluaran = master_pengeluaran.no_pengeluaran', 'left');
+		$this->db->where('transaksi.nama_transaksi', 'pengeluaran lain-lain');
 		return $this->db->count_all_results();
 	}
 
@@ -96,7 +98,7 @@ class Model_master_pendapatan extends CI_Model
 	
 	public function kode() 
     {
-        $get_no_transaksi = $this->db->query("select max(right(no_pendapatan,6)) as max_id from master_pendapatan");
+        $get_no_transaksi = $this->db->query("select max(right(no_transaksi,6)) as max_id from pengeluaran_lain_lain");
 		$kd = "";
 		if($get_no_transaksi->num_fields()>0){
 			foreach($get_no_transaksi->result() as $k){
@@ -106,7 +108,7 @@ class Model_master_pendapatan extends CI_Model
 		}else{
 			$kd = "000001";
 		}
-		$no = "Pnd_".$kd;
+		$no = "Pngll_".$kd;
 		return $no;
     }
     
@@ -127,5 +129,4 @@ class Model_master_pendapatan extends CI_Model
         return $this->db->update($table, $data);
 		
     }
-
 }

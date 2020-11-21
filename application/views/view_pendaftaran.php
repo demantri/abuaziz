@@ -11,65 +11,72 @@
 				<form action="#" class="js-form-pendaftaran form" id="form-pendaftaran">
 					
 					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-						<br>
 						<label for="password">Tanggal Daftar</label>
 						<div class="form-group">
 							<div class="form-line">
-								<input type="text" placeholder="Tanggal Daftar" data-validate-field="tanggal_transaksi" name="tanggal_transaksi" id="tanggal_transaksi" class="form-control" value = "<?php echo date('d F Y');?>" readonly ">
+								<input type="text" placeholder="Tanggal Daftar" data-validate-field="tanggal_transaksi" name="tanggal_transaksi" id="tanggal_transaksi" class="form-control" value = "<?php echo date('Y-m-d');?>" readonly ">
 							</div>
 						</div>
 					</div>
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-					<br>
-					<label for="password">Nama Ibu</label>
-						<div class="form-group">
-							<div class="form-line">
-								<input type="text" placeholder="Nama Ibu" data-validate-field="nama_ibu" name="nama_ibu" id="nama_ibu" class="form-control">
-							</div>
-						</div>
-					</div>
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-					<label for="email_address">Jam</label>
-					<div class="form-group">
-						<div class="form-line">
-							<input type="hidden" data-validate-field="aksi" name="aksi" id="aksi" class="form-control">
-							<input type="text" placeholder="Tanggal Transaksi" data-validate-field="jam" name="jam" id="jam" class="form-control" value = "<?php echo date('H:i:s');?>" readonly>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-						<label for="password">Nama Ayah</label>
-						<div class="form-group">
-							<div class="form-line">
-								<input type="text" placeholder="Nama Ayah" data-validate-field="nama_ayah" name="nama_ayah" id="nama_ayah" class="form-control">
-							</div>
-						</div>
-					</div>
+
 					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-						<label for="password">NIK</label>
+						<label for="password">Nama Ibu</label>
+						<div class="form-group">
+							<div class="form-line">
+								<input type="text" placeholder="Nama Ibu" data-validate-field="nama_ibu" name="nama_ibu" id="nama_ibu" class="form-control" autocomplete="off">
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+						<label for="password">NIS</label>
 						<div class="form-group">
 							<div class="form-group-line">
 								<input type="hidden" data-validate-field="aksi" name="aksi" id="aksi" class="form-control">
-								<input type="text" placeholder="NIK" data-validate-field="nis" name="nis" id="nis" class="form-control">
+								<input type="text" placeholder="NIS" data-validate-field="nis" name="nis" id="nis" class="form-control" autocomplete="off">
 							</div>
 						</div>
 					</div>
+
 					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 						<label for="password">No Telepon Orang Tua (Ayah/Ibu)</label>
 						<div class="form-group">
 							<div class="form-line">
-								<input type="text" placeholder="No Telepon Orang Tua" data-validate-field="no_telepon_ortu" name="no_telepon_ortu" id="no_telepon_ortu" class="form-control">
+								<input type="text" placeholder="No Telepon Orang Tua" data-validate-field="no_telepon_ortu" name="no_telepon_ortu" id="no_telepon_ortu" class="form-control" autocomplete="off">
 							</div>
 						</div>
 					</div>
+
 					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 						<label for="password">Nama Siswa</label>
 						<div class="form-group">
 							<div class="form-line">
-								<input type="text" placeholder="Nama Siswa" data-validate-field="nama_siswa" name="nama_siswa" id="nama_siswa" class="form-control">
+								<input type="text" placeholder="Nama Siswa" data-validate-field="nama_siswa" name="nama_siswa" id="nama_siswa" autocomplete="off" class="form-control">
 							</div>
 						</div>
 					</div>
+
+					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+						<label for="password">Nama Ayah</label>
+						<div class="form-group">
+							<div class="form-line">
+								<input type="text" placeholder="Nama Ayah" autocomplete="off" data-validate-field="nama_ayah" name="nama_ayah" id="nama_ayah" class="form-control">
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+						<label for="password">Jenis Kelamin</label>
+						<div class="form-group">
+							<div class="form-line">
+
+								<input type="radio" name="jenis_kelamin" value="Laki-laki" id="l" data-validate-field="jenis_kelamin" > Laki-laki
+
+								<input type="radio" name="jenis_kelamin" value="Perempuan" id="p" data-validate-field="jenis_kelamin" > Perempuan
+							</div>
+						</div>
+					</div>
+
 					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 						<label for="password">Biaya Pendaftaran</label>
 						<div class="form-group">
@@ -78,82 +85,28 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-						<label for="password">Jenis Kelamin</label>
-						<div class="form-group">
-							<div class="form-line">
-								<input type="radio" name="jenis_kelamin" value="Laki-laki" id="jenis_kelamin" data-validate-field="jenis_kelamin" > Laki-laki
-								<input type="radio" name="jenis_kelamin" value="Perempuan" id="jenis_kelamin" data-validate-field="jenis_kelamin" > Perempuan
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-					<label for="password">Potongan</label>
-					<div class="form-group">
-						<div class="form-line">
-							<select name="no_potongan" id="no_potongan" class="form-control">
-								<option value="">--Pilih Potongan--</option>
-							</select>
-						</div>
-					</div>
-				</div>
+
 					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 						<label for="password">Tempat Lahir</label>
 						<div class="form-group">
 							<div class="form-line">
-								<input type="text" placeholder="Tempat Lahir" data-validate-field="tempat_lahir" name="tempat_lahir" id="tempat_lahir" class="form-control">
+								<input type="text" placeholder="Tempat Lahir" data-validate-field="tempat_lahir" name="tempat_lahir" id="tempat_lahir" class="form-control" autocomplete="off">
 							</div>
 						</div>
 					</div>
+
 					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-						<label for="password">Total Biaya Pendaftaran</label>
-						<div class="form-group">
-							<div class="form-line">
-								<input type="text" placeholder="Total Biaya Pendaftaran" data-validate-field="tbiaya_pendaftaran" name="tbiaya_pendaftaran" id="tbiaya_pendaftaran" class="form-control" readonly>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-					<label for="password">Tanggal Lahir</label>
-					<div class="form-group">
-						<div class="form-line">
-							<input type="date" placeholder="Tanggal Lahir" data-validate-field="tanggal_lahir" name="tanggal_lahir" id="tanggal_lahir" class="form-control">
-							<script>
-								$(document).ready(function(){
-										$("#depart").datepicker({
-											showAnim : 'drop'
-										});
-								});	
-							</script>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-						<label for="password">Jenis Pembayaran</label>
-						<div class="form-group">
-							<div class="form-line">
-								<select class="form-control" name="jenis_pembayaran" id="jenis_pembayaran" >
-								<option value="">- Pilih -</option>
-								<option value="tunai">Tunai</option>
-								<option value="kredit">Kredit</option>
-								</select>
-							</div>
-						</div>
-					</div>
-<!-- 					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 						<label for="password">Potongan</label>
 						<div class="form-group">
 							<div class="form-line">
 								<select name="no_potongan" id="no_potongan" class="form-control">
-									<option value="">--Pilih Potongan--</option>
+									<option value="">- Pilih Potongan -</option>
 								</select>
 							</div>
 						</div>
 					</div>
- -->
-				
 
-<!-- 					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 						<label for="password">Tanggal Lahir</label>
 						<div class="form-group">
 							<div class="form-line">
@@ -167,36 +120,67 @@
 								</script>
 							</div>
 						</div>
-					</div> -->
+					</div>
 
-				
+					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+						<label for="password">Total Biaya Pendaftaran</label>
+						<div class="form-group">
+							<div class="form-line">
+								<input type="text" placeholder="Total Biaya Pendaftaran" data-validate-field="tbiaya_pendaftaran" name="tbiaya_pendaftaran" id="tbiaya_pendaftaran" class="form-control" readonly>
+							</div>
+						</div>
+					</div>
 
-					
 					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 						<label for="password">Alamat Pendaftaran</label>
 						<div class="form-group">
 							<div class="form-line">
-								<input type="text" placeholder="Alamat Siswa" data-validate-field="alamat_siswa" name="alamat_siswa" id="alamat_siswa" class="form-control">
+								<input type="text" placeholder="Alamat Siswa" data-validate-field="alamat_siswa" autocomplete="off" name="alamat_siswa" id="alamat_siswa" class="form-control">
 							</div>
 						</div>
 					</div>
-					
-
 					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-						<label for="password">Pembayaran</label>
+						<label for="password">Jenis Pembayaran</label>
 						<div class="form-group">
 							<div class="form-line">
-								<input type="text" placeholder="Pembayaran" data-validate-field="pembayaran" name="pembayaran" id="pembayaran" class="form-control">
+								<select class="form-control" name="jenis_pembayaran" id="jenis_pembayaran" >
+								<option value="">- Pilih -</option>
+								<option value="tunai">Tunai</option>
+								<option value="kredit">Kredit</option>
+								</select>
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+						<label for="password">Kelas</label>
+						<div class="form-group">
+							<div class="form-line">
+								<select name="kelas" id="kelas" data-validate-field="kelas" class="form-control" style="width: 100%">
+									<option value="">- Pilih Kelas -</option>
+									<?php 
+									$i = 1;
+									for ($i=$i ; $i <= 6 ; $i++) { ?>
+										<option value="<?= $i ?>">Kelas <?= $i ?></option>
+									<?php } ?>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 						<label for="password">Tahun Angkatan</label>
 						<div class="form-group">
 							<div class="form-line">
 								<select name="no_ajaran" id="no_ajaran" data-validate-field="no_ajaran" class="form-control" style="width: 100%">
-									<option value="">--Pilih Angkatan--</option>
+									<option value="">- Pilih Angkatan -</option>
 								</select>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+						<label for="password">Pembayaran</label>
+						<div class="form-group">
+							<div class="form-line">
+								<input type="text" placeholder="Pembayaran" data-validate-field="pembayaran" name="pembayaran" id="pembayaran" class="form-control" autocomplete="off">
 							</div>
 						</div>
 					</div>
@@ -223,7 +207,7 @@
 					<input type="hidden" id="totalbiaya_pendaftaran">
 					<div class="modal-footer">
 						<button type="button" name="simpan" class="btn btn-sm btn-default" onclick="batal()">Batal</button>
-						<button type="submit" name="simpan" class="btn btn-sm btn-primary" id="save" >Simpan</button>
+						<button type="submit" name="simpan" class="btn btn-sm btn-primary" >Simpan</button>
 					</div>
 				</form>
 			</div>
@@ -249,7 +233,7 @@
 							<tr>
 								<th>No</th>
 								<th>Tanggal</th>
-								<th>NIK</th>
+								<th>NIS</th>
 								<th>Nama Pendaftaran</th>
 								<th>Pembayaran</th>
 								<th>Sisa Pembayaran</th>
@@ -375,7 +359,7 @@ $(document).ready(function(){
 	listajaran();
 
 	$(document).on('click','#reset', function () {
-		$('#bayar').val();
+		$('#bayar').val('');
 		$('#reset').attr('hidden', true);
 		$('#btnSave').removeAttr('hidden');
 	});
@@ -412,7 +396,11 @@ $(document).ready(function(){
 			type 	: "POST",
 			url 	: "<?php echo site_url('pendaftaran/bayar')?>",
 			//data	: { bayar : bayar, sisa : sisa, no : $('#nomor_siswa').val() },
-			data	: { bayar : bayar, kd : $('#no_pendaftaran').val(), sisa : sisa, no : $('#nomor_siswa').val() },
+			data	: { 
+				bayar : bayar, 
+				kd : $('#no_pendaftaran').val(), 
+				sisa : sisa, 
+				no : $('#nomor_siswa').val() },
 
 			dataType: "JSON",
 			success	: function (data) {
@@ -488,24 +476,17 @@ $(document).ready(function(){
 	
 	$('#tanggal_lahir').datetimepicker('setEndDate', new Date());
 
-	$('#tanggal_lahir').datetimepicker({
-		changeYear: true,
-        minDate: '-3Y',
-        maxDate: '-5Y'
-	})
-
-
-	// $('input[name="tanggal_transaksi"]').datetimepicker({
- //        language:  'id',
- //        format:'yyyy-mm-dd',
- //        weekStart: 1,
- //        todayBtn:  1,
-	// 	autoclose: 1,
-	// 	todayHighlight: 1,
-	// 	startView: 2,
-	// 	minView: 2,
-	// 	forceParse: 0
- //    });
+	$('input[name="tanggal_transaksi"]').datetimepicker({
+        language:  'id',
+        format:'yyyy-mm-dd',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		minView: 2,
+		forceParse: 0
+    });
 	
 	function biaya_pendaftaran() {
 		$.ajax({
@@ -547,7 +528,7 @@ $(document).ready(function(){
 				$('input[name="nis"]').val(msg.nis);
 				$('input[name="nama_siswa"]').val(msg.nama_siswa);
 				$('input[name="alamat_siswa"]').val(msg.alamat_siswa);
-				//$('input[name="no_telepon"]').val(msg.no_telepon);
+				$('input[name="no_telepon"]').val(msg.no_telepon);
 				$('select[name="jenis_kelamin"]').val(msg.jenis_kelamin).change();
 				$('input[name="tempat_lahir"]').val(msg.tempat_lahir);
 				$('input[name="tanggal_lahir"]').val(msg.tanggal_lahir);
@@ -628,7 +609,6 @@ $(document).ready(function(){
 			$("#field_sisa_pembayaran").fadeOut("slow");
 			$("#sisa_pembayaran").val("0");
 			$('#pembayaran').attr('readonly', true);
-			$('#kembalian').val('0');
 		} else {
 			$('#pembayaran').removeAttr('readonly');
 			$("#field_sisa_pembayaran").fadeIn("slow");
@@ -642,37 +622,6 @@ $(document).ready(function(){
 		$("#sisa_pembayaran").val(biaya_pendaftaran - pembayaran);
 		$("#kembalian").val(pembayaran - biaya_pendaftaran);
 	})
-
-	$(document).on('keyup','#nis',function() {
-		$.ajax({
-			type:"post",
-			url:"<?php echo site_url("pendaftaran/validasi") ?>",
-			data:{
-				nis:$('#nis').val()
-			},
-			dataType:"JSON",
-			success:function(H){
-				// alert(H);
-				if(H>0){
-				$.toast({
-					heading: 'Bahaya',
-					text: 'Data "'+$('#nis').val()+'" Telah Tersedia',
-					position: 'top-right',
-					showHideTransition: 'slide',
-					icon: 'error',
-					hideAfter: false
-					});
-				$('#save').attr('disabled',true);
-				}
-				else{
-				$('#save').attr('disabled',false);
-				//$('#save').removeAttr('disabled')
-
-				}
-			}
-
-		})
-	})
 	
 	new window.JustValidate('.js-form-pendaftaran', {
         rules: {
@@ -680,18 +629,12 @@ $(document).ready(function(){
                 required: true
             },
             nis: {
-                required: true,
-                // remote: {
-                // 	type:"post",
-                // 	url:"<?php echo site_url('pendaftaran/validasi') ?>",
-                // 	data:{
-                // 		nis:function(){
-                // 			$('#nis').val()
-                // 		}
-                // 	}
-                // }
+                required: true
             },
 			no_ajaran: {
+                required: true
+            },
+            kelas: {
                 required: true
             },
             alamat_siswa: {
@@ -730,13 +673,14 @@ $(document).ready(function(){
 			required: 'Form Tidak Boleh Kosong'
 		  },
 		  nis: 'Form Tidak Boleh Kosong',
-		  no_ajarab: 'Form Tidak Boleh Kosong',
+		  no_ajaran: 'Form Tidak Boleh Kosong',
 		  alamat_siswa: 'Form Tidak Boleh Kosong',
 		  no_telepon: 'Form Tidak Boleh Kosong',
 		  jenis_kelamin: 'Form Tidak Boleh Kosong',
 		  tanggal_lahir: 'Form Tidak Boleh Kosong',
 		  tempat_lahir: 'Form Tidak Boleh Kosong',
 		  nama_ayah: 'Form Tidak Boleh Kosong',
+		  kelas: 'Form Tidak Boleh Kosong',
 		  nama_ibu: 'Form Tidak Boleh Kosong',
 		  biaya_pendaftaran: 'Form Tidak Boleh Kosong',
 		  pembayaran: 'Form Tidak Boleh Kosong',

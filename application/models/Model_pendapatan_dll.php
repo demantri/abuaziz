@@ -6,12 +6,20 @@ class Model_pendapatan_dll extends CI_Model
 	var $column_search = array('tanggal_transaksi', 'nama_pendapatan', 'jumlah_pendapatan', 'keterangan'); //set column field database for datatable searchable 
 	var $order = array('pendapatan_lain_lain.no_transaksi' => 'asc'); // default order 
 	
-	private function _get_datatables_query()
+	private function _get_datatables_query($tipe)
 	{
 		
 		$this->db->from('transaksi');
 		$this->db->join('pendapatan_lain_lain', 'transaksi.no_transaksi = pendapatan_lain_lain.no_transaksi', 'left');
 		$this->db->join('master_pendapatan', 'pendapatan_lain_lain.no_pendapatan = master_pendapatan.no_pendapatan', 'left');
+
+		if($tipe != 'view'){
+			$this->db->where('trans_by', $this->session->userdata('jabatan'));
+		}else{
+			$this->db->where('trans_by', 'Tata Usaha');
+		}
+		
+		
 		$i = 0;
 	
 		foreach ($this->column_search as $item) // loop column 
@@ -47,28 +55,33 @@ class Model_pendapatan_dll extends CI_Model
 		}
 	}
 
-	public function get_datatables()
+	public function get_datatables($tipe)
 	{
-		$this->_get_datatables_query();
+		$this->_get_datatables_query($tipe);
 		if($_POST['length'] != -1)
 		$this->db->limit($_POST['length'], $_POST['start']);
 		$query = $this->db->get();
 		return $query->result();
 	}
 
-	public function count_filtered()
+	public function count_filtered($tipe)
 	{
-		$this->_get_datatables_query();
+		$this->_get_datatables_query($tipe);
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
 
-	public function count_all()
+	public function count_all($tipe)
 	{
 		$this->db->from('transaksi');
 		$this->db->join('pendapatan_lain_lain', 'transaksi.no_transaksi = pendapatan_lain_lain.no_transaksi', 'left');
 		$this->db->join('master_pendapatan', 'pendapatan_lain_lain.no_pendapatan = master_pendapatan.no_pendapatan', 'left');
 		$this->db->where('transaksi.nama_transaksi', 'pendapatan lain-lain');
+		if($tipe != 'view'){
+			$this->db->where('trans_by', 'Tata Usaha');
+		}else{
+			$this->db->where('trans_by', $this->session->userdata('jabatan'));
+		}
 		return $this->db->count_all_results();
 	}
 

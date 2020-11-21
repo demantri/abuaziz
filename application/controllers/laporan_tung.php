@@ -109,6 +109,13 @@ class laporan_tung extends CI_Controller {
 					echo"<td>Belum Bayar</td>";	
 					"<td></td>";
 				}
+				echo "<tfoot>
+				<tr>
+					<th colspan=4>Total</th>
+					<th colspan=1 style='text-align:right;'>Rp. ". number_format($total, 2,',','.') ."</th>
+					<th></th>
+				</tr> 
+			</tfoot>";
 			echo "</tbody>";
 		echo "</table>";
 	}

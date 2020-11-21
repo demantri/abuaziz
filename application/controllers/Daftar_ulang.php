@@ -35,11 +35,25 @@ class Daftar_ulang extends CI_Controller {
 		);
 		$q = $this->model_daftar_ulang->get_where('siswa', $field, $condition);
 		
+		// if($q){
+		// 	echo "<select name='no_siswa' id='no_siswa' data-validate-field='no_siswa' class='form-control'>
+  //           <option value =''>--Pilih Siswa--</option>";
+		// 	foreach($q as $row){
+		// 		echo "<option  value='$row->no_siswa'>$row->nama_siswa</option>";
+		// 	}
+		// 	echo "</select>";
+		// }
+
+		/* revisi disini coba */
+
 		if($q){
 			echo "<select name='no_siswa' id='no_siswa' data-validate-field='no_siswa' class='form-control'>
             <option value =''>--Pilih Siswa--</option>";
 			foreach($q as $row){
-				echo "<option  value='$row->no_siswa'>$row->nama_siswa</option>";
+				$count = $this->db->select('count(a.no_transaksi) as no')->from('daftar_ulang a')->join('transaksi b','a.no_transaksi = b.no_transaksi')->where(array('YEAR(tanggal_transaksi)' => date('Y'), 'no_siswa' => $row->no_siswa))->get()->row_array()['no'];
+				if ($count == 0) {
+					echo "<option  value='$row->no_siswa'>$row->nama_siswa</option>";					
+				}
 			}
 			echo "</select>";
 		}
@@ -102,7 +116,7 @@ class Daftar_ulang extends CI_Controller {
 			// 'tanggal_transaksi' => $this->input->post("tanggal_transaksi"),
 			'tanggal_transaksi' => date('Y-m-d', strtotime($this->input->post("tanggal_transaksi"))),
 			'nama_transaksi' => "daftar ulang",
-			'jam' => $this->input->post("jam"),
+			// 'jam' => $this->input->post("jam"),
 			'no_user' => $this->session->userdata('no_user')
 		);
 		
@@ -126,6 +140,16 @@ class Daftar_ulang extends CI_Controller {
 			// 'keterangan' => $this->input->post("keterangan"),
 			'status_pembayaran' => $status
 		);
+
+		// record data into kelas 
+		$vali = $this->db->where('no_siswa',$_POST['no_siswa'])->get('kelas')->num_rows();
+		if ($vali > 0) {
+			$this->db->where('no_siswa', $_POST['no_siswa'])->set('nama_kelas', $_POST['kelas'])->update('kelas');
+		} else {
+			$in['no_siswa']		= $_POST['no_siswa'];
+			$in['nama_kelas']	= $_POST['kelas'];
+			$this->db->insert('kelas', $in);
+		}
 		
 		$daftar_ulang = $this->model_daftar_ulang->tambah('daftar_ulang', $data_daftar_ulang);
 		if($daftar_ulang){

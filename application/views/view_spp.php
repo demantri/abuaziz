@@ -8,12 +8,23 @@
 		<div class="sparkline13-graph">
 			<div class="datatable-dashv1-list custom-datatable-overright">
 				<form action="#" class="js-form-spp form" id="form-spp">
-					<label for="email_address">Tanggal SPP Bulanan</label>
+					
+
+					<!-- coba -->
+					<label for="email_address">Tanggal Bayar</label>
+					<div class="form-group">
+						<div class="form-line">
+							<input type="text" placeholder="Periode" data-validate-field="periode" name="periode" id="periode"  class="form-control" value="<?= date('Y-m-d'); ?>" readonly>
+						</div>
+					</div>
+
+					<label for="email_address">Periode</label>
 					<div class="form-group">
 						<div class="form-line">
 							<input type="text" placeholder="Tanggal Bayar" data-validate-field="tanggal_transaksi" name="tanggal_transaksi" id="tanggal_transaksi"  class="form-control" value="<?= date('Y-m-d'); ?>" readonly>
 						</div>
 					</div>
+
 					<label for="password">Nama Siswa</label>
 					<div class="form-group">
 						<div class="form-line">

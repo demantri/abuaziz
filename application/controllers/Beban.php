@@ -56,13 +56,14 @@ class Beban extends CI_Controller {
 		$list = $this->model_beban->get_datatables();
 		$data = array();
 		$no = $_POST['start'];
-		foreach ($list as $beban) {
+		foreach ($list as $beban){
 			$no++;
 			$row = array();
 			$row[] = "<span class='size'>".$no."</span>";
 			$row[] = "<span class='size'>".$beban->no_transaksi."</span>";
+			$row[] = "<span class='size'>".date('d F Y', strtotime($beban->tanggal_transaksi))."</span>";
 			$row[] = "<span class='size'>".$beban->nama_beban."</span>";
-			$row[] = "<span class='size'>Rp. ".number_format($beban->total_pengeluaran,2,',','.')."</span>";
+			$row[] = "<span class='size pull-right'>Rp. ".number_format($beban->total_pengeluaran,2,',','.')."</span>";
 			$row[] = "<span class='size'>".$beban->keterangan."</span>";
 			$data[] = $row;
 		}
@@ -78,60 +79,78 @@ class Beban extends CI_Controller {
 	}
 
 	public function tambah(){
-		
-		$no_transaksi = $this->model_beban->kode();
-		$data_transaksi = array(
-			'no_transaksi' => $no_transaksi,
-			'tanggal_transaksi' => $this->input->post("tanggal_transaksi"),
-			'nama_transaksi' => "beban",
-			'no_user' => $this->session->userdata('no_user')
-		);
-		
-		$transaksi = $this->model_beban->tambah('transaksi', $data_transaksi);
-		
-		
-		$data_beban = array(
-			'no_transaksi' => $no_transaksi,
-			'no_beban' => $this->input->post("no_beban"),
-			'total_pengeluaran' => $this->input->post("total_pengeluaran"),
-			'keterangan' => $this->input->post("keterangan")
-		);
-		
-		$beban = $this->model_beban->tambah('pembayaran_beban', $data_beban);
-		
-		$field = array('*');
-		$condition = array(
-			'no_beban' => $this->input->post("no_beban")
-		);
-		$querybeban = $this->model_beban->get_row('beban_beban', $field, $condition);
-		$nama_beban = $querybeban->nama_beban;
-		
-		$condition2 = array(
-			'nama_akun' => $nama_beban
-		);
-		$queryakun = $this->model_beban->get_row('akun', $field, $condition2);
-		$no_akun = $queryakun->no_akun;
-		
-		$jurnal1 = array(
-			'no_transaksi' => $no_transaksi,
-			'no_akun' => $no_akun,
-			'posisi' => "debit",
-			'nominal' => $this->input->post("total_pengeluaran")
-		);
-		$query_jurnal1 = $this->model_beban->tambah("jurnal", $jurnal1);
-		
-		$jurnal2 = array(
-			'no_transaksi' => $no_transaksi,
-			'no_akun' => "111",
-			'posisi' => "kredit",
-			'nominal' => $this->input->post("total_pengeluaran")
-		);
-		$query_jurnal2 = $this->model_beban->tambah("jurnal", $jurnal2);
-		if($beban){
-			echo json_encode(array('status' => "benar"));
+		$this->form_validation->set_rules('total_pengeluaran', 'Total Pengeluran', 'required|numeric|greater_than[0]');
+	
+		if($this->form_validation->run() == TRUE){
+			$no_transaksi = $this->model_beban->kode();
+			$data_transaksi = array(
+				'no_transaksi' => $no_transaksi,
+				'tanggal_transaksi' => date('Y-m-d'),
+				'nama_transaksi' => "beban",
+				'no_user' => $this->session->userdata('no_user')
+			);
+			
+			$transaksi = $this->model_beban->tambah('transaksi', $data_transaksi);
+			
+			
+			$data_beban = array(
+				'no_transaksi' => $no_transaksi,
+				'no_beban' => $this->input->post("no_beban"),
+				'total_pengeluaran' => $this->input->post("total_pengeluaran"),
+				'keterangan' => $this->input->post("keterangan")
+			);
+			
+			$beban = $this->model_beban->tambah('pembayaran_beban', $data_beban);
+			
+			$field = array('*');
+			$condition = array(
+				'no_beban' => $this->input->post("no_beban")
+			);
+			$querybeban = $this->model_beban->get_row('beban_beban', $field, $condition);
+			$nama_beban = $querybeban->nama_beban;
+			
+			$condition2 = array(
+				'nama_akun' => $nama_beban
+			);
+			$queryakun = $this->model_beban->get_row('akun', $field, $condition2);
+			$no_akun = $queryakun->no_akun;
+			
+			$jurnal1 = array(
+				'no_transaksi' => $no_transaksi,
+				'no_akun' => $no_akun,
+				'posisi' => "debit",
+				'nominal' => $this->input->post("total_pengeluaran")
+			);
+			$query_jurnal1 = $this->model_beban->tambah("jurnal", $jurnal1);
+			
+			$jurnal2 = array(
+				'no_transaksi' => $no_transaksi,
+				'no_akun' => "111",
+				'posisi' => "kredit",
+				'nominal' => $this->input->post("total_pengeluaran")
+			);
+			$query_jurnal2 = $this->model_beban->tambah("jurnal", $jurnal2);
+			if($beban){
+				$res = [
+					'status'  => true,
+					'message' => 'Data berhasil dimasukkan'
+				];
+			}else{
+				$res = [
+					'status'  => false,
+					'message' => 'Data gagal dimasukkan'
+				];
+			}
+
 		}else{
-			echo json_encode(array('status' => "salah"));
+			$res = [
+				'status'  => false,
+				'message' => 'Total Pengeluaran harus diatas Rp. 0'
+			];
 		}
+
+		echo json_encode($res);
+		
 	}
 	
 	// public function data()

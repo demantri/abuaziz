@@ -47,7 +47,8 @@ class Siswa extends CI_Controller {
 			$row[] = "<span class='size'>".$siswa->nama_ayah."</span>";
 			$row[] = "<span class='size'>".$siswa->nama_ibu."</span>";
 			$row[] = "<span class='size'>".$siswa->no_telepon_ortu."</span>";
-			$aksi = '<a class="btn btn-xs btn-success" target="_blank" href="https://wa.me/'.$siswa->no_telepon.'/?text='.$encode.'"><i class="fa fa-bell" style="color:green" data-toggle="tooltip" title="Send Whatsapp"></i></a>';
+				
+			$aksi = '<a class="btn btn-xs btn-success" target="_blank" href="https://api.whatsapp.com/send?phone='.$siswa->no_telepon_ortu.'"><i class="fa fa-bell" style="color:green" data-toggle="tooltip" title="Send Whatsapp"></i></a>';
 				
 				$aksi.='
 				<a class="btn btn-xs btn-primary" href="javascript:void()" title="Edit" onclick="edit(\''. $siswa->no_siswa.'\')">

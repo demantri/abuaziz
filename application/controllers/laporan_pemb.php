@@ -92,7 +92,8 @@ class laporan_pemb extends CI_Controller {
 				<tr>
 					<th rowspan=2>No</th>
 					<th rowspan=2>Tanggal Transaksi</th>
-					<th rowspan=2>No Transaksi</th>
+					<th rowspan=2>NIS</th>
+					<th rowspan=2>Nama Siswa</th>
 					<th rowspan=2>Biaya SPP</th>
 				</tr> 
 			</thead>";
@@ -102,7 +103,8 @@ class laporan_pemb extends CI_Controller {
 					echo"<tr>";
 					echo"<td>".$c++."</td>";
 					echo"<td>".$row['tanggal_transaksi']."</td>";
-					echo"<td>".$row['no_transaksi']."</td>";
+					echo"<td>".$row['nis']."</td>";
+					echo"<td>".$row['nama_siswa']."</td>";
 					echo"<td>Rp. ".number_format($row['nominal'],2,',','.')."</td>";	
 					echo"</tr>";
 					$total=$total+$row['nominal'];	
@@ -110,7 +112,7 @@ class laporan_pemb extends CI_Controller {
 
 			echo "<tfoot>
 				<tr>
-					<th colspan=3>Total</th>
+					<th colspan=4>Total</th>
 					<th colspan=1 style='text-align:right;'>Rp. ". number_format($total, 2,',','.') ."</th>
 				</tr> 
 			</tfoot>";
