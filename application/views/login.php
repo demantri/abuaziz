@@ -71,13 +71,13 @@
     <![endif]-->
     <div class="error-pagewrap">
         <div class="error-page-int">
-            <a href="index.html"><img style=" width:130px; height: 120px; " class="main-logo" src="<?=base_url();?>assets/img/logo/logo2.png" alt="" /></a>
+            <a href="index.html"><img style=" width:130px; height: 130px; " class="main-logo" src="<?=base_url();?>assets/img/logo/logo3.png" alt="" /></a>
             <br>
             <div class="text-center m-b-md custom-login">
                 <br>
-                <h3>SD ABU AZIZ</h3>
+                <!-- <h3>SD ABU AZIZ</h3> -->
                 <b><p>Selamat Datang di Sistem Informasi SD Abu Aziz<p></b>
-                    <br>
+                    
             </div>
             <div class="content-error">
                 <div class="hpanel">

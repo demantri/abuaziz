@@ -8,11 +8,11 @@
 		<div class="sparkline13-graph">
 			<div class="datatable-dashv1-list custom-datatable-overright">
 				<form action="#" class="js-form-siswa form" id="form-siswa">
-					<label for="password">NIS</label>
+					<label for="password">NIK</label>
 					<div class="form-group">
 						<div class="form-line">
 							<input type="hidden" data-validate-field="aksi" name="aksi" id="aksi" class="form-control">
-							<input type="text" placeholder="NIS" data-validate-field="nis" name="nis" id="nis" class="form-control" readonly="">
+							<input type="text" placeholder="NIK" data-validate-field="nis" name="nis" id="nis" class="form-control" readonly="">
 						</div>
 					</div>
 					<label for="password">Nama Siswa</label>
@@ -101,7 +101,7 @@
 							<tr>
 								<th>No</th>
 								<th>Tanggal Daftar</th>
-								<th>NIS</th>
+								<th>NIK</th>
 								<th>Nama Siswa</th>
 								<th>Alamat Siswa</th>
 								<!-- <th>No Telepon</th> -->

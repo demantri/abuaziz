@@ -25,7 +25,7 @@
 	<a class="has-arrow" href="#">
 		   <span class="educate-icon educate-data-table icon-wrap"></span>
 		   <span class="mini-click-non">Transaksi</span>
-		</a>`
+		</a>
 	<ul class="submenu-angle" aria-expanded="true">
 		<!-- <li><a href="<?= site_url('pendaftaran'); ?>"><span class="mini-sub-pro">Pendaftaran</span></a></li> -->
 		<li><a href="<?= site_url('daftar_ulang'); ?>"><span class="mini-sub-pro">Daftar Ulang</span></a></li>
